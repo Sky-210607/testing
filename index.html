@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>memory lane</title>
+  <title>Memory Lane</title>
   <style>
-  body {
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -239,7 +239,13 @@
       }
       .image-container img {
         width: 100%;
-        height:100%;
+        height: auto;
+      }
+      #rightButton {
+        right: 10px;
+        bottom: 10px;
+        transform: translate(0, 0);
+        top: unset;
       }
     }
   </style>
@@ -512,12 +518,14 @@
           leaves: bookElem.querySelectorAll(".leaf"),
           buttons: {
             next: document.getElementById("nextPage"),
-            prev: document.getElementById("prevPage")
+            prev: document.getElementById("prevPage"),
+            proceed: document.getElementById("rightButton")
           }
         };
         this.setupEvents();
         this.currentPagePosition = 0;
         this.turnPage(0);
+        this.updateProceedButtonVisibility();
       }
 
       setPagePosition(page, position, index) {
@@ -529,10 +537,9 @@
         } else {
           page.classList.remove("turned");
         }
-        if (page.style.transform != transform) {
+        if (page.style.transform !== transform) {
           page.style.transform = transform;
         }
-        this.toggleExternalButtons();
       }
 
       turnPage(delta) {
@@ -541,7 +548,7 @@
           this.currentPagePosition = 0;
           return;
         }
-        if (this.currentPagePosition > this.elems.leaves.length) {
+        if (this.currentPagePosition >= this.elems.leaves.length) {
           this.currentPagePosition = this.elems.leaves.length;
           return;
         }
@@ -549,6 +556,11 @@
           var pageNumber = index;
           this.setPagePosition(page, pageNumber - this.currentPagePosition, index);
         });
+        this.updateButtonStates();
+        this.updateProceedButtonVisibility();
+      }
+
+      updateButtonStates() {
         if (this.currentPagePosition === 0) {
           this.elems.buttons.prev.setAttribute("disabled", "disabled");
         } else if (this.currentPagePosition === this.elems.leaves.length) {
@@ -557,16 +569,14 @@
           this.elems.buttons.next.removeAttribute("disabled");
           this.elems.buttons.prev.removeAttribute("disabled");
         }
-        this.toggleExternalButtons();
       }
 
-      toggleExternalButtons() {
+      updateProceedButtonVisibility() {
         const shouldShowButton = this.currentPagePosition === this.elems.leaves.length;
-        const rightButton = document.getElementById('rightButton');
         if (shouldShowButton) {
-          rightButton.classList.remove('hidden');
+          this.elems.buttons.proceed.classList.remove('hidden');
         } else {
-          rightButton.classList.add('hidden');
+          this.elems.buttons.proceed.classList.add('hidden');
         }
       }
 
@@ -577,11 +587,15 @@
         this.elems.buttons.prev.addEventListener("click", () => {
           this.turnPage(-1);
         });
-        document.getElementById("rightButton").addEventListener("click", () => {
+        this.elems.buttons.proceed.addEventListener("click", () => {
           window.location.href = 'reply.html';
         });
       }
     }
-    var flipBook = new FlipBook(document.getElementById("flipbook"));
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const flipBook = new FlipBook(document.getElementById("flipbook"));
+    });
   </script>
 </body>
+</html>
