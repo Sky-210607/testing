@@ -179,12 +179,17 @@
       line-height: 1.5;
     }
 
-    @media (min-width: 768px) {
+    @media (max-width: 480px) {
+      .flipbook {
+        width: 90vw;
+        height: 72vw; /* Adjusted aspect ratio for better fit */
+        max-height: 80vh;
+      }
       .text-container {
-        font-size: 2.5vw;
+        font-size: 4vw;
       }
       .text-container h2 {
-        font-size: 3vw;
+        font-size: 5vw;
       }
     }
 
