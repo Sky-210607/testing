@@ -404,7 +404,7 @@
         <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
           <div class="text-container">
             <h2>Lokkhi Pujo</h2>
-            <p>Invitation mile aur hum na jaaye, aisa toh ho nh skta. Of course I went running, flying to be more precise to see you. Keeping aside the fact that i really miss aunty r haather ranna. But kya hum uss din bhi udd gaye the aapko dekhkar? yes. ekdum. apko saree mein dekhe aur hum na ude ye ho nh skta.</p>
+            <p>Invitation mile aur hum na jaaye, aisa toh ho nh skta. Of course I went running, flying to be more precise to see you. Keeping aside the fact that I really miss aunty r haather ranna. But kya hum uss din bhi udd gaye the aapko dekhkar? Yes. Ekdum. Apko saree mein dekhe aur hum na ude ye ho nh skta.</p>
           </div>
         </div>
         <div class="page back">
@@ -507,8 +507,9 @@
   <div class="controls centered">
     <button id="prevPage">Previous</button>
     <button id="nextPage">Next</button>
-    <button id="rightButton" class="hidden">Proceed</button>
   </div>
+
+  <button id="rightButton" class="hidden">Proceed</button>
 
   <script>
     class FlipBook {
@@ -525,7 +526,6 @@
         this.setupEvents();
         this.currentPagePosition = 0;
         this.turnPage(0);
-        this.updateProceedButtonVisibility();
       }
 
       setPagePosition(page, position, index) {
@@ -548,7 +548,7 @@
           this.currentPagePosition = 0;
           return;
         }
-        if (this.currentPagePosition >= this.elems.leaves.length) {
+        if (this.currentPagePosition > this.elems.leaves.length) {
           this.currentPagePosition = this.elems.leaves.length;
           return;
         }
