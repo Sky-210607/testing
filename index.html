@@ -178,6 +178,7 @@
     .text-container p {
       line-height: 1.5;
     }
+   
     @media (min-width: 768px) {
       .controls {
         position: absolute;
@@ -206,16 +207,19 @@
       }
       .flipbook {
         width: 100vw;
-        height: 75vw; /* Adjusted aspect ratio for better fit */
-        max-height: 85vh;
+        height: 75vw; /* Adjusted aspect ratio */
+        max-height: 90vh;
       }
       .controls {
-        margin-top: 20px;
-        flex-direction: column;
+        margin-top: 10px;
+        flex-direction: row;
         position: relative;
+        bottom: 0;
       }
       .controls button {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+        padding: 5px 10px;
+        font-size: 10px;
       }
       .text-container {
         font-size: 4vw;
