@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>memory lane</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-image: url('LAVENDER.jpg');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      flex-direction: column;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+    .flipbook-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    .flipbook {
+      width: 100vw;
+      max-width: 800px;
+      height: 56.25vw; /* aspect ratio of 16:9 */
+      max-height: 450px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      position: relative;
+    }
+    .leaf {
+      position: absolute;
+      transform-style: preserve-3d;
+      height: 100%;
+      width: 50%;
+      background-color: #fff;
+      left: 50%;
+      transition: transform 1s;
+      transform: rotate3d(0, 1, 0, 0deg);
+      transform-origin: left 0px;
+      border: 1px solid #000;
+    }
+    .page {
+      transform-style: preserve-3d;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .front {
+      transform: rotate3d(0, 1, 0, 0deg) translate3d(0, 0, 0.1px);
+    }
+    .front:not(.external) {
+      box-shadow: inset 5px 0px 5px -5px #0005;
+    }
+    .back {
+      transform: rotate3d(0, 1, 0, 180deg) translate3d(0, 0, 0.1px);
+    }
+    .back:not(.external) {
+      box-shadow: inset -5px 0px 5px -5px #0005;
+    }
+    .turned {
+      transform: rotateY(180deg);
+    }
+    .disabled {
+      user-select: none;
+      opacity: 0.6;
+    }
+    .title {
+      text-align: center;
+      width: 100%;
+      padding: 0em !important;
+      padding-top: 2em;
+    }
+    .page.front {
+      border-radius: 0em 1em 1em 0;
+    }
+    .page.back {
+      border-radius: 1em 0em 0em 1em;
+    }
+    .leaf {
+      background-color: #0000 !important;
+    }
+    .pageNumber {
+      font-size: 0.75em;
+      position: absolute;
+      bottom: 0.5em;
+    }
+    .front .pageNumber {
+      right: 0.75em;
+    }
+    .back .pageNumber {
+      left: 0.75em;
+    }
+    .contents-row {
+      display: flex;
+      flex-flow: row nowrap;
+    }
+    .contents-row .spacer {
+      flex: 1 1;
+      height: 1em;
+      border-bottom: 1px dashed #000;
+    }
+    .contents-row .text {
+      flex: 0 0 auto;
+    }
+    h1, h2, h3 {
+      font-family: cursive;
+    }
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    .controls button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+      background: #61014c80;
+      padding: 10px 30px;
+      border-radius: 5px;
+      border: 2px solid rgba(245, 189, 5, 0.5);
+      box-shadow: rgba(0, 0, 0, 0.3);
+      transition: 0.3s;
+    }
+    .controls button:hover {
+      color: white;
+      background: #b90d8e;
+    }
+    .image-container {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .text-container {
+      padding: 10px;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+    }
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #rightButton {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 10px;
+      z-index: 50;
+    }
+    .text-container h2 {
+      font-family: Georgia;
+      text-decoration: underline;
+      text-align: center;
+    }
+    .text-container p {
+      font-size: 3.5vw;
+    }
+
+    @media (min-width: 768px) {
+      .text-container p {
+        font-size: 2.5vw;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .text-container p {
+        font-size: 1.5vw;
+      }
+      .text-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="flipbook-container">
+    <div class="flipbook centered" id="flipbook">
+      <!-- Pages go here as before -->
+      <div class="leaf">
+        <div class="page front title external" style="background-image:url('BOOK COVER.jpg');">
+        </div>
+        <div class="page back" style="background-image:url('WhatsApp Image 2024-12-27 at 22.25.03_997fd338.jpg');">
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>SECRET DIARY</h2>
+            <p>Disclaimer: This is going to melt your heart. Proceed with safety.</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-02 at 19.46.20_9c2e339d.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Saraswati Pujo</h2>
+            <p>The day we met after texting each other for weeks and OH MY GOD. YOU LEFT ME SPEECHLESS, FLABBERGASTED, SPELLBOUND EKDUM SAMAYE THAM SA GAYA CAUSE I SAW YOU WEARING SAREE. FOR THE VERY FIRST TIME. BHT KUCH HO GAYA THA MUJHE USS DIN KASAM SE. I LITERALLY FELL FOR YOU LIKE DHOP. Then toh mohalle ke aunties ke tarah couples ko judge krna was peak.</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-02 at 19.52.59_0a34519b.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Bangaliyaana</h2>
+            <p>This is one of my most favourite days, we had so much fun that day. Getting to witness Dohar was definitely something we both didn't expect. The day I learnt that bunking classes to spend more time with you won't hurt ;3 AND this is my one of my favourite pictures cause LOOK HOW FREAKING AADORABLE YOU LOOK, I GET THAT CUTENESS AGRESSION EVERYTIME I SEE THIS PICTURE. EKDOM KYOOT!</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 18.00.13_1237058f.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Guru Purnima</h2>
+            <p>Though I was EXTREMELY Tired that day cause I went to school after days, when I came back home and was getting ready to go to your house, I was so excited to see you that I momentarily forgot what tiredness is. And then when I again saw you wearing a Saree, of one of my favourite colours, I swear I could feel butterflies in my stomach, my heart literally beating like a drum and fireworks in my mind.I love this picture cause we look so kyoot. Gosh I love your smile.</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-02 at 20.08.23_0e38a732.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>8th June: The official date</h2>
+            <p>Of course its one of the BEST DAYS I've lived cause I WENT OUT ON A MOVIE DATE WITH YOU. The first half of the movie, yes I was focused also panicking cause I AM WATCHING A SPIDER MAN MOVIE WITH THE LOVE OF MY LIFE! Of course you saw me texting my friends about it in the interval. But after the interval..? OH MY FREAKING LORD. THE WAY WE WERE SITTING. THE EYE CONTACT. EVERYTHING. Then we were just eating in silence cause we both were hungry lmao but damn that day was. Max e teen baar ghora and CC2 er balcony te bosha, shiri te bosha eventually guard e bhagiye dilo, very similar to the Louvre scene of heartstopper. Our outfits were slay.</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-02 at 20.23.44_84ada022.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Ashtami</h2>
+            <p>Hum Kolkata mein aur apke saath Ashtami mein naa ghume ye ho nh skta. Of course those days were very difficult for me but you just know how to make me happy. Spotting an "almost queer" flag spencer's e wasn't expected tho. And this picture has my heart. We were being so dumb cause we dont know how to pose was so funny. Simply lovely.</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-02 at 20.26.52_9b32ba51.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Pride</h2>
+            <p>PRIDE. OH MY GOD. BEST BEST BEST. Tho jawar shomoye jhamela holo chotto but OH MY GOD THANK GOD I DIDN'T GO BACK HOME. ABSOLUTELY BEST. TO WALK IN A CROWD WHICH FELT COMFORTABLE, TO EMBRACE YOU IN FRONT OF EVERYONE, TO GO UNDER THE PRIDE FLAG AND EVERYTHING ABOUT IT, wearing the lesbian badge ulto (of course I remember this). Makes me cry everytime I think about this day. This picture is my absolute favourite, the dream of going to pride with my partner came true. To get embraced by my partner in that crowd.</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 17.34.19_21d01690.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>The meets after school</h2>
+            <p>How could I miss school knowing that there's chance to meet you? Tho meeting wearing a school uniform is definitely not a good idea considering safety and comfort. But how can I just go home knowing that you're coming to meet me? Going home an hour later after school doesn't cause any harm. Tho the auto driver uncles witnessed me blushing after every time we met lol.</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 17.35.46_dca0570a.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Barbie movie date!</h2>
+            <p>Of course I was excited to watch a Barbie movie with you. And oh god I absolutely loved it. The musketeers. My jaw dropped. And I cant wait to watch more Barbie movies with you. This picture is so cute. Unlike 20th march we were finally watching a movie and CUDDLING. :3 </p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 17.33.56_92eaebc3.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>ANNIVERSARY!</h2>
+            <p>1st feb, one year ago this day from getting overwhelmed after seeing art supplies in the streets of college street to discovering unknown streets and roads, we actually were exploring Kolkata. And then we went to our favourite place to relax and enjoy the subtle intimacy (i still dont know how we were so courageous to kiss there). Everything was just awesome that day but my most favourite part of the day was us cuddling and eating ice cream and of course the gift exchange. :3 Our messy hair and tired faces say it all that how much fun we had that day! </p>
+          </div>
+        </div> 
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 18.07.05_3a92c53e.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>31st December 2023</h2>
+            <p>Of course I was spending the last day of the year with you. The double date was fun and OH MY OH MY YOU WERE LOOKING SO PWETTY. The excuse of Maths class saved me from our parents. And how can we forget about the pastries we ate? That Chocolate...something, the blueberry?cheesecake hanging on for dear life and the ultimate lesbian pastry. Though I was clicking pictures of the pastries like a grandma but hehe. And of course the pictures of us. Like. LOOK WE LOOK LIKE A MARRIED COUPLE :3 SHO KYOOT.</p>
+          </div>
+        </div> 
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 17.34.39_23cc45f6.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Lokkhi Pujo</h2>
+            <p>Invitation mile aur hum na jaaye, aisa toh ho nh skta. Of course I went running, flying to be more precise to see you. Keeping aside the fact that i really miss aunty r haather ranna. But kya hum uss din bhi udd gaye the aapko dekhkar? yes. ekdum. apko saree mein dekhe aur hum na ude ye ho nh skta.</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 18.12.13_1f1b1ac1.jpg" alt="">
+            </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Rim Jhim Gire Saawan</h2>
+            <p>And of course, how can I even think of missing an opportunity to meet you after my classes? And probably the only time I liked being all soaked in the rain. We were having our 'rim jhim gire saawan' moment but we still complained, lol. I guess we'll never stop complaining about the rain. :3</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 18.14.28_9d1d3d73.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Saraswati Pujo 2024</h2>
+            <p>Our second Saraswati Pujo! The place was so beautiful. We didn't go inside because we were too involved in doing something else, which a man across the building witnessed. Even though we didn't get anything to eat, it was worth it. We will go again, okie? We both wore sarees and you made me wear brown lipstick. Since then, I've only worn brown lipstick because yes. We look fantastically gorgeous in the pictures. My wife right there! AAAAAAAA :3</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 18.15.46_5a9d8b61.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Dropping You Off at Your Classes</h2>
+            <p>Guess who absolutely enjoyed dropping you off at your classes? Yes, me! I couldn’t miss a moment to be with you. I absolutely loved it. This picture captures me back-hugging you. The doi bora we ate that day was amazing. :3</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 18.42.34_2d2e292d.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Our Heartstopper Date :3</h2>
+            <p>We were back at Max, in front of a little mirror to take a mirror selfie. This date was so Heartstopper coded! Searching for momos was hilarious. This picture is so cute. I will buy you that plushie someday! :3</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2024-12-31 at 17.16.13_7ad1b7cc.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Christmas 2023</h2>
+            <p>As I told you earlier, Christmas is one of my favorites. Celebrating it with you made my inner child very happy. I was so excited to go out with you that I was literally dancing, singing, and jumping around. When we met, my heart skipped a beat when I saw you. The Spiderman bouquet you gave me is so precious. Going to CC2 felt much better because it was finally just us. The guy who saw us kissing was so hilarious, lol. We got married, hehe :3</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 17.35.23_0dee68fd.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>Chhaad</h2>
+            <p>One of my favorite places to be with you? Chhaad, yes. That Chhaad witnessed our whole story, from March 20th, everything. Despite the annoying family, it was the place I always loved to escape to. Being in your arms, laughing with you, or just sitting in silence made me feel safe as if everything around was silenced. Wednesdays were my favorite because I got to spend a little more time with you. I used to skip classes because my syllabus was complete, so why not?</p>
+          </div>
+        </div>
+        <div class="page back">
+          <div class="image-container">
+            <img src="WhatsApp Image 2025-01-04 at 17.35.02_b7df687e.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="leaf">
+        <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
+          <div class="text-container">
+            <h2>20th March</h2>
+            <p>Thought I forgot to add this memory, huh? Sike. I can never forget any day spent with you. It was our very first date. I was extremely nervous to meet your family. We were so shy that we sat far away from each other while watching the movie. The little fight we had when you wanted to put ketchup on my nose – oh my god. How I wished time would stop on your chhaad. It felt so good to be in your embrace. That was the moment I was convinced that you are the person I want to be with for the rest of my life.</p>
+          </div>
+        </div>
+        <div class="page back" style="background-image:url('BOOK COVER.jpg');">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls centered">
+    <button id="prevPage">Previous</button>
+    <button id="nextPage">Next</button>
+    <button id="rightButton" class="hidden">Proceed</button>
+  </div>
+
+  <script>
+    class FlipBook {
+      constructor(bookElem) {
+        this.elems = {
+          book: bookElem,
+          leaves: bookElem.querySelectorAll(".leaf"),
+          buttons: {
+            next: document.getElementById("nextPage"),
+            prev: document.getElementById("prevPage")
+          }
+        };
+        this.setupEvents();
+        this.currentPagePosition = 0;
+        this.turnPage(0);
+      }
+
+      setPagePosition(page, position, index) {
+        var transform = "";
+        transform = "translate3d(0,0," + ((position < 0 ? 1 : -1) * Math.abs(index)) + "px)";
+        if (position < 0) {
+          transform += "rotate3d(0,1,0,-180deg)";
+          page.classList.add("turned");
+        } else {
+          page.classList.remove("turned");
+        }
+        if (page.style.transform != transform) {
+          page.style.transform = transform;
+        }
+        this.toggleExternalButtons();
+      }
+
+      turnPage(delta) {
+        this.currentPagePosition += delta;
+        if (this.currentPagePosition < 0) {
+          this.currentPagePosition = 0;
+          return;
+        }
+        if (this.currentPagePosition > this.elems.leaves.length) {
+          this.currentPagePosition = this.elems.leaves.length;
+          return;
+        }
+        this.elems.leaves.forEach((page, index) => {
+          var pageNumber = index;
+          this.setPagePosition(page, pageNumber - this.currentPagePosition, index);
+        });
+        if (this.currentPagePosition === 0) {
+          this.elems.buttons.prev.setAttribute("disabled", "disabled");
+        } else if (this.currentPagePosition === this.elems.leaves.length) {
+          this.elems.buttons.next.setAttribute("disabled", "disabled");
+        } else {
+          this.elems.buttons.next.removeAttribute("disabled");
+          this.elems.buttons.prev.removeAttribute("disabled");
+        }
+        this.toggleExternalButtons();
+      }
+
+      toggleExternalButtons() {
+        const shouldShowButton = this.currentPagePosition === this.elems.leaves.length;
+        const rightButton = document.getElementById('rightButton');
+        if (shouldShowButton) {
+          rightButton.classList.remove('hidden');
+        } else {
+          rightButton.classList.add('hidden');
+        }
+      }
+
+      setupEvents() {
+        this.elems.buttons.next.addEventListener("click", () => {
+          this.turnPage(1);
+        });
+        this.elems.buttons.prev.addEventListener("click", () => {
+          this.turnPage(-1);
+        });
+        document.getElementById("rightButton").addEventListener("click", () => {
+          window.location.href = 'reply.html';
+        });
+      }
+    }
+    var flipBook = new FlipBook(document.getElementById("flipbook"));
+  </script>
+</body>
+</html>
