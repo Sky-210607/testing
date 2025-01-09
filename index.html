@@ -131,8 +131,7 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      position: absolute;
-      bottom: 10px;
+      position: relative;
     }
     .controls button {
       margin: 0 5px;
@@ -191,8 +190,8 @@
     
     @media (min-width: 768px) {
       .controls {
-        position: absolute;
-        bottom: 20px;
+        position: relative;
+        bottom: -20px; /* Adjust control position to be just below the flipbook */
       }
       .text-container {
         font-size: 2.5vw;
@@ -203,6 +202,9 @@
     }
 
     @media (min-width: 1200px) {
+      .controls {
+        bottom: -20px;
+      }
       .text-container {
         font-size: 2vw;
       }
@@ -224,7 +226,7 @@
         margin-top: 10px;
         flex-direction: row;
         position: relative;
-        bottom: 0;
+        bottom: -5px; /* Adjust control position to be just below the flipbook */
       }
       .controls button {
         margin-bottom: 5px;
@@ -391,10 +393,10 @@
         <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
           <div class="text-container">
             <h2>31st December 2023</h2>
-            <p>Of course I was spending the last day of the year with you. The double date was fun and OH MY OH MY YOU WERE LOOKING SO PWETTY. The excuse of Maths class saved me from our parents. And how can we forget about the pastries we ate? That Chocolate...something, the blueberry?cheesecake hanging on for dear life and the ultimate lesbian pastry. Though I was clicking pictures of the pastries like a grandma but hehe. And of course the pictures of us. Like. LOOK WE LOOK LIKE A MARRIED COUPLE :3 SHO KYOOT.</p>
+            <p>Of course I was spending the last day of the year with you. The double date was fun and OH MY OH MY YOU WERE LOOKING SO PWETTY. The excuse of Maths class saved me from our parents. And how can we forget about the pastries we ate? That Chocolate...something, the blueberry?cheesecake hanging on for dear life and the ultimate lesbian pastry. Though I was clicking pictures of the pastries like a grandma but hehe. And of course the pictures of us. Like. LOOK WE LOOK LIKE A MARRIED COUPLE :3</p>
           </div>
         </div>
-        <div class="page back">
+         <div class="page back">
           <div class="image-container">
             <img src="WhatsApp Image 2025-01-04 at 17.34.39_23cc45f6.jpg" alt="">
           </div>
