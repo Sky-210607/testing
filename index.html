@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory Lane</title>
   <style>
-    body {
+  body {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -33,6 +33,7 @@
       align-items: center;
       width: 100%;
       flex-grow: 1;
+      margin-bottom: 70px; /* Ensures space for the buttons below the flipbook */
     }
     .flipbook {
       width: 95vw;
@@ -126,12 +127,12 @@
       font-family: cursive;
     }
     .controls {
-      margin-top: 0 20px;
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
-      position: relative;
+      position: absolute;
+      bottom: 0;
     }
     .controls button {
       margin: 0 5px;
@@ -226,7 +227,7 @@
         margin-top: 10px;
         flex-direction: row;
         position: relative;
-        bottom: -5px; /* Adjust control position to be just below the flipbook */
+        bottom: 0; /* Adjust control position to be just below the flipbook */
       }
       .controls button {
         margin-bottom: 5px;
