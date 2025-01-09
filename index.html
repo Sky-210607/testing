@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>memory lane</title>
   <style>
-    body {
+  body {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -32,11 +32,12 @@
       justify-content: center;
       align-items: center;
       width: 100%;
+      flex-grow: 1;
     }
     .flipbook {
-      width: 90vw;
-      height: 67.5vw; /* aspect ratio of 3:2 */
-      max-height: 90vh;
+      width: 95vw;
+      height: 64vw; /* Increased the aspect ratio */
+      max-height: 85vh;
       transform-style: preserve-3d;
       perspective: 1000px;
       position: relative;
@@ -64,12 +65,14 @@
     }
     .front {
       transform: rotate3d(0, 1, 0, 0deg) translate3d(0, 0, 0.1px);
+      backface-visibility: hidden;
     }
     .front:not(.external) {
       box-shadow: inset 5px 0px 5px -5px #0005;
     }
     .back {
       transform: rotate3d(0, 1, 0, 180deg) translate3d(0, 0, 0.1px);
+      backface-visibility: hidden;
     }
     .back:not(.external) {
       box-shadow: inset -5px 0px 5px -5px #0005;
@@ -123,20 +126,22 @@
       font-family: cursive;
     }
     .controls {
-      margin-top: 20px;
+      margin-top: 10px;
       display: flex;
       justify-content: center;
+      align-items: center;
       width: 100%;
+      position: absolute;
+      bottom: 10px;
     }
     .controls button {
-      margin: 0 10px;
-      padding: 10px 20px;
-      font-size: 16px;
+      margin: 0 5px;
+      padding: 5px 10px;
+      font-size: 12px;
       cursor: pointer;
       color: white;
       text-decoration: none;
       background: #61014c80;
-      padding: 10px 30px;
       border-radius: 5px;
       border: 2px solid rgba(245, 189, 5, 0.5);
       box-shadow: rgba(0, 0, 0, 0.3);
@@ -150,6 +155,11 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+    }
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .text-container {
       padding: 10px;
@@ -178,7 +188,8 @@
     .text-container p {
       line-height: 1.5;
     }
-   @media (min-width: 768px) {
+    
+    @media (min-width: 768px) {
       .controls {
         position: absolute;
         bottom: 20px;
@@ -228,7 +239,7 @@
       }
       .image-container img {
         width: 100%;
-        height: 100%;
+        height: auto;
       }
     }
   </style>
@@ -236,12 +247,9 @@
 <body>
   <div class="flipbook-container">
     <div class="flipbook centered" id="flipbook">
-      <!-- Pages go here as before -->
       <div class="leaf">
-        <div class="page front title external" style="background-image:url('BOOK COVER.jpg');">
-        </div>
-        <div class="page back" style="background-image:url('WhatsApp Image 2024-12-27 at 22.25.03_997fd338.jpg');">
-        </div>
+        <div class="page front title external" style="background-image:url('BOOK COVER.jpg');"></div>
+        <div class="page back" style="background-image:url('WhatsApp Image 2024-12-27 at 22.25.03_997fd338.jpg');"></div>
       </div>
       <div class="leaf">
         <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
@@ -273,7 +281,7 @@
         <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
           <div class="text-container">
             <h2>Bangaliyaana</h2>
-            <p>This is one of my most favourite days, we had so much fun that day. Getting to witness Dohar was definitely something we both didn't expect. The day I learnt that bunking classes to spend more time with you won't hurt ;3 AND this is my one of my favourite pictures cause LOOK HOW FREAKING AADORABLE YOU LOOK, I GET THAT CUTENESS AGRESSION EVERYTIME I SEE THIS PICTURE. EKDOM KYOOT!</p>
+            <p>This is one of my most favourite days, we had so much fun that day. Getting to witness Dohar was definitely something we both didn't expect. The day I learnt that bunking classes to spend more time with you won't hurt ;3 AND this is my one of my favourite pictures cause LOOK HOW FREAKING ADORABLE YOU LOOK, I GET THAT CUTENESS AGRESSION EVERYTIME I SEE THIS PICTURE. EKDOM KYOOT!</p>
           </div>
         </div>
         <div class="page back">
@@ -366,7 +374,7 @@
             <h2>ANNIVERSARY!</h2>
             <p>1st feb, one year ago this day from getting overwhelmed after seeing art supplies in the streets of college street to discovering unknown streets and roads, we actually were exploring Kolkata. And then we went to our favourite place to relax and enjoy the subtle intimacy (i still dont know how we were so courageous to kiss there). Everything was just awesome that day but my most favourite part of the day was us cuddling and eating ice cream and of course the gift exchange. :3 Our messy hair and tired faces say it all that how much fun we had that day! </p>
           </div>
-        </div> 
+        </div>
         <div class="page back">
           <div class="image-container">
             <img src="WhatsApp Image 2025-01-04 at 18.07.05_3a92c53e.jpg" alt="">
@@ -379,7 +387,7 @@
             <h2>31st December 2023</h2>
             <p>Of course I was spending the last day of the year with you. The double date was fun and OH MY OH MY YOU WERE LOOKING SO PWETTY. The excuse of Maths class saved me from our parents. And how can we forget about the pastries we ate? That Chocolate...something, the blueberry?cheesecake hanging on for dear life and the ultimate lesbian pastry. Though I was clicking pictures of the pastries like a grandma but hehe. And of course the pictures of us. Like. LOOK WE LOOK LIKE A MARRIED COUPLE :3 SHO KYOOT.</p>
           </div>
-        </div> 
+        </div>
         <div class="page back">
           <div class="image-container">
             <img src="WhatsApp Image 2025-01-04 at 17.34.39_23cc45f6.jpg" alt="">
@@ -396,7 +404,8 @@
         <div class="page back">
           <div class="image-container">
             <img src="WhatsApp Image 2025-01-04 at 18.12.13_1f1b1ac1.jpg" alt="">
-            </div>
+          </div>
+        </div>
       </div>
       <div class="leaf">
         <div class="page front" style="background-image:url('OLD PAPER.jpeg');">
@@ -576,4 +585,3 @@
     var flipBook = new FlipBook(document.getElementById("flipbook"));
   </script>
 </body>
-</html>
